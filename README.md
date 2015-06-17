@@ -1,3 +1,5 @@
+[![Stories in Ready](https://badge.waffle.io/devis/18FAgileBPA.svg?label=ready&title=Ready)](http://waffle.io/devis/18FAgileBPA)
+
 # 18FAgileBPA - RFQ993471
 
 This code is live at [http://example.org](http://example.org)
