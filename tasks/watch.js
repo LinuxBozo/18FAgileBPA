@@ -5,7 +5,7 @@ module.exports = function watch(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     return {
-        js: {
+        server: {
             files: [
                 'index.js',
                 'lib/*.js',
@@ -13,9 +13,19 @@ module.exports = function watch(grunt) {
                 'services/**/*.js',
                 'controllers/**/*.js'
             ],
-            tasks: ['develop'],
+            tasks: ['jscs:all', 'jshint', 'develop'],
             options: {
                 spawn: false
+            }
+        },
+        client: {
+            files: [
+                'public/**/*',
+                '!public/bundle/*.js'
+            ],
+            tasks: ['jscs:all', 'jshint', 'browserify:dev'],
+            options: {
+                livereload: true
             }
         }
     };

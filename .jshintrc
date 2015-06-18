@@ -8,7 +8,7 @@
     // Predefined globals
 
     // Whether the standard browser globals should be predefined.
-    "browser": false,
+    "browser": true,
     // Whether the Node.js environment globals should be predefined.
     "node": true,
     // Whether the Rhino environment globals should be predefined.
@@ -151,5 +151,21 @@
     // Maximum number of statements per function.
     "maxstatements": 25,
     // Maximum cyclomatic complexity.
-    "maxcomplexity": 6
+    "maxcomplexity": 6,
+
+    "globals": {
+        "angular": false,
+        "$": false,
+        "after": false,
+        "afterEach": false,
+        "before": false,
+        "beforeEach": false,
+        "browser": false,
+        "describe": false,
+        "expect": false,
+        "inject": false,
+        "it": false,
+        "jasmine": false,
+        "spyOn": false
+    }
 }
