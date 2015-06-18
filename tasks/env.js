@@ -7,6 +7,9 @@ module.exports = function env(grunt) {
     return {
         options: {
         },
+        prod: {
+            NODE_ENV: 'prod'
+        },
         sandbox: {
             NODE_ENV: 'sandbox',
             XUNIT_FILE: 'coverage/TESTS-all.xml'

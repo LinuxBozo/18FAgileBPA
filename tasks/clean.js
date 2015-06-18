@@ -12,6 +12,7 @@ module.exports = function clean(grunt) {
 //               force: true
         },
         node_modules:['node_modules/*', '!node_modules/grunt*'],
+        dist: ['dist/*'],
         coverage:['coverage/*'],
         docs: ['docs/*']
     };
