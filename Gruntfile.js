@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     // Load the project's grunt tasks from a directory
     require('grunt-config-dir')(grunt, {
@@ -63,8 +63,10 @@ module.exports = function (grunt) {
         'karma'
     ]);
 
-    grunt.registerTask('build', function (env) {
-        env = env || 'production'; // default the build env to 'production', if not specified
+    grunt.registerTask('build', function(env) {
+
+        // default the build env to 'production', if not specified
+        env = env || 'production';
 
         grunt.task.run([
             'clean:dist',
