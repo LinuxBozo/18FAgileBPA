@@ -5,10 +5,9 @@ var datadogOptions,
     app,
     express = require('express'),
     kraken = require('kraken-js'),
-    datadog = require('connect-datadog');
+    datadog = require('./lib/datadog');
 
 datadogOptions = {
-    response_code:true,
     tags: ['app:devis18f']
 };
 
