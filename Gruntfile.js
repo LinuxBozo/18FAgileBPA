@@ -74,6 +74,7 @@ module.exports = function(grunt) {
             'jshint',
             'browserify:dist',
             'ngAnnotate:dist',
+            'sass',
             'useminPrepare',
             'concurrent:dist',
             'autoprefixer',
@@ -92,8 +93,10 @@ module.exports = function(grunt) {
         }
         grunt.task.run([
             'env:sandbox',
+            'jscs',
             'jshint',
             'browserify:dev',
+            'sass',
             'concurrent:local',
             'autoprefixer',
             'develop',
