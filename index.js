@@ -1,17 +1,22 @@
 'use strict';
 
-var express = require('express');
-var kraken = require('kraken-js');
+var datadogOptions,
+    options,
+    app,
+    express = require('express'),
+    kraken = require('kraken-js'),
+    datadog = require('./lib/datadog');
 
-
-var options, app;
+datadogOptions = {
+    tags: ['app:devis18f']
+};
 
 /*
  * Create and configure application. Also exports application instance for use by tests.
  * See https://github.com/krakenjs/kraken-js#options for additional configuration options.
  */
 options = {
-    onconfig: function (config, next) {
+    onconfig: function(config, next) {
         /*
          * Add any additional config setup or overrides here. `config` is an initialized
          * `confit` (https://github.com/krakenjs/confit/) configuration object.
@@ -21,8 +26,9 @@ options = {
 };
 
 app = module.exports = express();
+app.use(datadog(datadogOptions));
 app.use(kraken(options));
-app.on('start', function () {
+app.on('start', function() {
     console.log('Application ready to serve requests.');
     console.log('Environment: %s', app.kraken.get('env:env'));
 });
