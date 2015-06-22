@@ -2,17 +2,15 @@
 
 'use strict';
 
-describe('/', function () {
+describe('/api', function() {
 
-    it('should say "hello"', function (done) {
+    it('should say "hello"', function(done) {
         request(mock)
             .get('/api')
             .expect(200)
             .expect('Content-Type', /html/)
-
-                .expect(/"name": "index"/)
-
-            .end(function (err, res) {
+            .expect(/"name": "index"/)
+            .end(function(err, res) {
                 done(err);
             });
     });
