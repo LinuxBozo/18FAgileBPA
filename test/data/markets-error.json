@@ -1,0 +1,9 @@
+{
+    "results":[
+        {
+            "id":"Error",
+            "marketname":
+            "Your latitude and or longitude are not numbers."
+        }
+    ]
+}
