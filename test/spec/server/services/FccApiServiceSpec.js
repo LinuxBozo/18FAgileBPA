@@ -10,22 +10,7 @@ describe('FCC Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, {
-            Block: {
-                FIPS: '517750103002024'
-            },
-            County: {
-                FIPS: '51775',
-                name: 'Salem'
-            },
-            State: {
-                FIPS: '51',
-                code: 'VA',
-                name: 'Virginia'
-            },
-            status: 'OK',
-            executionTime: '2716'
-        });
+        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
 
         FccApiService.getStateFromLatLong('37', '-80')
         .then(function(result) {
@@ -41,22 +26,7 @@ describe('FCC Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=80')
-        .reply(200, {
-            Block: {
-                FIPS: null
-            },
-            County: {
-                FIPS: null,
-                name: null
-            },
-            State: {
-                FIPS: null,
-                code: null,
-                name: null
-            },
-            status: 'OK',
-            executionTime: '2716'
-        });
+        .reply(200, require('../../../data/fcc-lat-lon-null.json'));
 
         FccApiService.getStateFromLatLong('37', '80')
         .then(function(result) {
