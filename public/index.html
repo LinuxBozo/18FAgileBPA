@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- endbuild -->
@@ -20,12 +21,12 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <ng-include src="'partials/header.html'"></ng-include>
+    <div class="container">
+        <!-- Add your site or application content here -->
+        <main id="content" role="main" class="wrapper" ng-view="" autoscroll="true"></main>
 
-    <main id="content" role="main" class="wrapper" ng-view="" autoscroll="true"></main>
-
-    <ng-include src="'partials/footer.html'"></ng-include>
+        <ng-include src="'partials/footer.html'"></ng-include>
+    </div>
 
     <!-- build:js({.tmp,public}) scripts/scripts.js -->
     <script src="bundle/bundle.js"></script>

@@ -1,1 +1,8 @@
-<h1>Main View</h1>
+<div class="hero">
+    <ng-include src="'partials/header.html'"></ng-include>
+
+    <div class="location row">
+        <h2><label for="location">Where are you?</label></h2>
+        <input type="text" id="location" class="six columns offset-by-three" value="" ng-model="location" readonly>
+    </div>
+</div>
