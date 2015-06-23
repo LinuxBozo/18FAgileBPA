@@ -23,6 +23,8 @@ describe('openFDA Api Service', function() {
         .then(function(result) {
             expect(result).to.have.property('meta');
             expect(result.meta).to.have.property('results');
+            expect(result.meta).to.have.property('state');
+            expect(result.meta.state).to.be('Virginia');
             expect(result.meta.results).to.have.property('total');
             expect(result.meta.results.total).to.be(2758);
             done();
