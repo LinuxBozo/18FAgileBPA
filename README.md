@@ -103,6 +103,12 @@ $ heroku create
 
 _**NOTE**: Heroku generates a random name for your app, unless you pass a parameter to specify your own app/host name._
 
+Next, you'll want to request your own [openFDA API key](https://open.fda.gov/api/reference/#authentication). We'll set this key in our heroku environment directly. This ensures that we aren't storing these credentials in the source code, or in a database that could be compromised.
+
+```shell
+$ heroku config:add OPENFDA_API_KEY=<your API key>
+```
+
 When you create an app, a git remote (called `heroku`) is also created and associated with your local git repository. You can now use this remote to deploy your code:
 
 ```shell
@@ -173,10 +179,10 @@ $ npm install
 
 After this, there are several ways that you can go to get the application running in your environment.
 
-This can be as simple as running the `server.js` directly:
+This can be as simple as running the `server.js` directly with properly set environment variables:
 
 ```shell
-$ NODE_ENV=prod PORT=80 node server.js
+$ OPENFDA_API_KEY=<your API key> NODE_ENV=prod PORT=80 node server.js
 ```
 
 However, it is recommended that you use a services framework (like [upstart](http://upstart.ubuntu.com/)), or similar, that will allow you to script the startup and keep the process running should it run into any issues. There are also tools to keep the process running as a daemon, such as [pm2](https://github.com/Unitech/PM2) and [forever](https://www.npmjs.com/package/forever)
