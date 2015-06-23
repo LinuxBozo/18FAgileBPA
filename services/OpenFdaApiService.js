@@ -8,14 +8,19 @@ var promisedGet = require('../lib/promisedGet'),
 module.exports = {
 
     getRecallsByLatLong: function(lat, lon, limit, skip) {
+        var rejection = 'Invalid Latitude or Longitude';
+
         return FccApiService.getStateFromLatLong(lat, lon)
         .then(function(result) {
             if (result.code) {
                 return this.getRecallsByStateAbbreviation(result.code, limit, skip);
             } else {
-                return Promise.reject('Invalid Latitude or Longitude');
+                return Promise.reject(rejection);
             }
-        }.bind(this));
+        }.bind(this))
+        .catch(function(err) {
+            return Promise.reject(rejection);
+        });
     },
 
     getRecallsByStateAbbreviation: function(state, limit, skip) {

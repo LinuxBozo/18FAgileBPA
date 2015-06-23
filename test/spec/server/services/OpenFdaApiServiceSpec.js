@@ -3,6 +3,9 @@
 'use strict';
 
 var OpenFdaApiService = require('../../../../services/OpenFdaApiService');
+var latLonVA = require('../../../data/fcc-lat-lon-va.json');
+var latLonNull = require('../../../data/fcc-lat-lon-null.json');
+var recallDataVA = require('../../../data/food-recalls-va.json');
 
 describe('openFDA Api Service', function() {
 
@@ -10,11 +13,11 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
+        .reply(200, latLonVA);
 
         nock('https://api.fda.gov')
         .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
-        .reply(200, require('../../../data/food-recalls-va.json'));
+        .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80')
         .then(function(result) {
@@ -31,11 +34,11 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
+        .reply(200, latLonVA);
 
         nock('https://api.fda.gov')
         .get('/food/enforcement.json?limit=10&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
-        .reply(200, require('../../../data/food-recalls-va.json'));
+        .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80', 10, null)
         .then(function(result) {
@@ -52,11 +55,11 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
+        .reply(200, latLonVA);
 
         nock('https://api.fda.gov')
         .get('/food/enforcement.json?limit=100&skip=10&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
-        .reply(200, require('../../../data/food-recalls-va.json'));
+        .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80', null, 10)
         .then(function(result) {
@@ -73,11 +76,11 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
+        .reply(200, latLonVA);
 
         nock('https://api.fda.gov')
         .get('/food/enforcement.json?limit=20&skip=20&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
-        .reply(200, require('../../../data/food-recalls-va.json'));
+        .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80', 20, 20)
         .then(function(result) {
@@ -96,11 +99,11 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=-80')
-        .reply(200, require('../../../data/fcc-lat-lon-va.json'));
+        .reply(200, latLonVA);
 
         nock('https://api.fda.gov')
         .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)&api_key=MOCK_KEY')
-        .reply(200, require('../../../data/food-recalls-va.json'));
+        .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80')
         .then(function(result) {
@@ -117,9 +120,23 @@ describe('openFDA Api Service', function() {
 
         nock('https://data.fcc.gov')
         .get('/api/block/find?format=json&latitude=37&longitude=80')
-        .reply(200, require('../../../data/fcc-lat-lon-null.json'));
+        .reply(200, latLonNull);
 
         OpenFdaApiService.getRecallsByLatLong('37', '80')
+        .catch(function(err) {
+            expect(err).to.not.be(null);
+            expect(err).to.be('Invalid Latitude or Longitude');
+            done();
+        });
+    });
+
+    it('should reject when we do not have a valid lat/lon due to alpha lat/lon', function(done) {
+
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=foo&longitude=bar')
+        .reply(404, {});
+
+        OpenFdaApiService.getRecallsByLatLong('foo', 'bar')
         .catch(function(err) {
             expect(err).to.not.be(null);
             expect(err).to.be('Invalid Latitude or Longitude');
