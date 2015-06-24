@@ -7,10 +7,10 @@
 
 ## Links
 
-* See a description of our [Approach](#approach).
+* Prototype: [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) continuously deployed on [Heroku IaaS](https://www.heroku.com)
+* Our [Approach](#approach) to developing the prototype
 * [Project Vision](https://github.com/devis/18FAgileBPA/wiki/Project-Charter)
 * [Project Roadmap](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map)
-* Our prototype is live and continuously deployed at: [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) using [Heroku IaaS](https://www.heroku.com)
 
 ## Contributing
 
@@ -202,23 +202,26 @@ Once you restart your service, and have traffic coming in, you should now have s
 
 _See our [Approach Criteria Evidence](APPROACH_EVIDENCE.md)_
 
-Upon receiving the openFDA data assignment, we appointed proxy users among our internal staff to play the role of customer. We then spent time brain-storming useful applications we might develop, or real-life problems we might solve, using the FDA APIs. See Project Vision for the idea we eventually adopted.
-
-With a problem defined, and a 'client' to work for, we began our normal process.
+**Initial status:**
+* Received notice of openFDA data source
+* Stakeholders - this was an unusual project with no obvious client, so:
+  * Appointed internal staff as proxy users
+  * Proxy users conducted brainstorming sessions to identify a problem we could solve using openFDA data
+* Now with a problem defined, and a client to work for, we began our normal process, modified somewhat given the compressed timeframe and unusual circumstances.
 
 ### Project Initiation / Communication Plan
 * Identify roles
 * Name a Product Owner
 * Create Project Plan and Schedule
-* Specify communications plan
-* Conduct project kickoff meeting with the client, in this case our proxy users.
-
-#### Risk Management
-An important element of project kickoff is to perform a risk assessment.
-Our [risk management plan](Risk-Management-Plan) is also updated as the project progresses:
-* during and after requirements elicitation with the customer
-* during release and iteration planning meetings
-* during retrospectives
+* Specify Communications Plan
+  * Set up chat room
+  * Set scrum time
+  * Set up code repository, issue tracker, project wiki
+* Conduct project kickoff meeting with the client (in this case our proxy users)
+* Create Risk Management plan, to be updated
+  * during and after requirements elicitation with the customer
+  * during release and iteration planning meetings
+  * during retrospectives
 
 ### Initial Requirements Elicitation and Design Session
 * Craft a [vision](Project-Charter) for the project with users
