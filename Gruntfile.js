@@ -9,12 +9,7 @@ module.exports = function(grunt) {
 
     // handle coverage event by sending data to coveralls
     grunt.event.on('coverage', function(lcov, done) {
-        require('coveralls').handleInput(lcov, function(err) {
-            if (err) {
-                return done(err);
-            }
-            done();
-        });
+        done();
     });
 
     /*
@@ -50,7 +45,6 @@ module.exports = function(grunt) {
 
     // Register group tasks
     grunt.registerTask('clean_all', ['clean:node_modules', 'clean:coverage', 'clean:docs', 'npm_install']);
-    grunt.registerTask('test', ['env:test', 'clean:coverage', 'jscs:all', 'jshint', 'mocha_istanbul']);
     grunt.registerTask('coverage', ['test', 'open_coverage_server', 'open_coverage_client']);
     grunt.registerTask('test', [
         'env:test',
@@ -74,6 +68,7 @@ module.exports = function(grunt) {
             'jshint',
             'browserify:dist',
             'ngAnnotate:dist',
+            'sass',
             'useminPrepare',
             'concurrent:dist',
             'autoprefixer',
@@ -92,8 +87,10 @@ module.exports = function(grunt) {
         }
         grunt.task.run([
             'env:sandbox',
+            'jscs',
             'jshint',
             'browserify:dev',
+            'sass',
             'concurrent:local',
             'autoprefixer',
             'develop',

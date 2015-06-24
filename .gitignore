@@ -41,3 +41,7 @@ node_modules
 docs/*
 
 public/bundle
+
+# Ignore the compiled CSS files
+public/styles/*.css
+*.map

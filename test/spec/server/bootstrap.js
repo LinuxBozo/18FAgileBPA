@@ -4,12 +4,14 @@
 
 global.expect = require('must');
 global.request = require('supertest');
+global.nock = require('nock');
+
+process.setMaxListeners(0);
 
 var kraken = require('kraken-js'),
     express = require('express');
 
-
-beforeEach(function (done) {
+beforeEach(function(done) {
     var app = express();
     app.on('start', done);
     app.use(kraken({
@@ -20,8 +22,7 @@ beforeEach(function (done) {
 
 });
 
-
-afterEach(function (done) {
+afterEach(function(done) {
     mock.close(done);
 });
 

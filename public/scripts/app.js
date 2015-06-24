@@ -6,6 +6,8 @@ require('angular-cookies');
 require('angular-resource');
 require('angular-route');
 require('angular-sanitize');
+require('angularjs-geolocation/dist/angularjs-geolocation.min.js');
+
 var Promise = require('bluebird');
 
 angular
@@ -14,7 +16,8 @@ angular
         'ngCookies',
         'ngResource',
         'ngRoute',
-        'ngSanitize'
+        'ngSanitize',
+        'geolocation'
     ])
     .config(function($locationProvider, $routeProvider) {
         $locationProvider.html5Mode(true);
