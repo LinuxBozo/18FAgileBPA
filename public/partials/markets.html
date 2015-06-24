@@ -1,0 +1,14 @@
+<section id="markets" class="markets row section" aria-live="polite" ng-if="recallMetadata">
+    <h2>Local Farmer's Markets</h2>
+    <ul class="list-unstyled" ng-if="markets">
+        <li ng-repeat="market in markets">
+            <h3 class="name">{{market.marketname}}</h3>
+            <dl class="horizontal">
+                <dt class="distance"><abbr title="Estimated">Est.</abbr> Distance</dt>
+                <dd class="distance">{{market.distance}} miles</dd>
+            </dl>
+        </li>
+    </ul>
+
+    <p ng-if="!markets">We were not able to find any markets in your area.</p>
+</section>

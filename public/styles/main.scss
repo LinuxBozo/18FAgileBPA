@@ -8,24 +8,8 @@ body {
     background-color: $tan;
 }
 
-dt {
-    font-weight: 600;
-}
-
-dl.horizontal {
-    dt {
-        float: left;
-        width: 160px;
-        overflow: hidden;
-        clear: left;
-        text-align: right;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    dd {
-        margin-left: 180px;
-    }
+.section {
+    margin-bottom: 2rem;
 }
 
 .hero {
@@ -63,27 +47,45 @@ dl.horizontal {
     }
 }
 
-.recalls {
-    margin-top: 2rem;
+nav {
+    text-align: center;
+
+    ul {
+        margin-bottom: 0;
+    }
+}
+
+.recalls,
+.markets {
     padding: 2rem;
     background-color: lighten($tan, 7%);
 
-    li {
-        list-style: none;
-    }
-
+    .name,
     .description {
         font-size: 2.4rem;
         line-height: 1.35;
         letter-spacing: -.08rem;
     }
+}
 
+.recalls {
     dl.horizontal {
         dt {
             width: 90px;
         }
         dd {
             margin-left: 110px;
+        }
+    }
+}
+
+.markets {
+    dl.horizontal {
+        dt {
+            width: 100px;
+        }
+        dd {
+            margin-left: 120px;
         }
     }
 }

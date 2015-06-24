@@ -3,7 +3,8 @@
 require('angular');
 require('angular-mocks');
 
-var recallDataVA = require('../../../data/food-recalls-va.json');
+var recallDataVA = require('../../../data/food-recalls-va.json'),
+    marketsVa = require('../../../data/markets-va.json');
 
 describe('Controller: MainCtrl', function() {
 
@@ -44,12 +45,17 @@ describe('Controller: MainCtrl', function() {
         it('should default the recall results to an empty list', function() {
             expect(scope.recallResults).toEqual([]);
         });
+
+        it('should default the market results to an empty list', function() {
+            expect(scope.markets).toEqual([]);
+        });
     });
 
     describe('when browser returns geolocation', function() {
         beforeEach(function() {
             recallDataVA.meta.state = 'Virginia';
             httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
+            httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(marketsVa);
             httpBackend.flush();
         });
 
@@ -61,8 +67,12 @@ describe('Controller: MainCtrl', function() {
             expect(scope.recallMetadata.last_updated).toBe('2015-05-31');
         });
 
-        it('should popupate recallResults', function() {
+        it('should populate recallResults', function() {
             expect(scope.recallResults.length).toBe(100);
+        });
+
+        it('should populate markets', function() {
+            expect(scope.markets.length).toBe(19);
         });
     });
 });
