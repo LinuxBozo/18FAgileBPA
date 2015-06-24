@@ -7,7 +7,7 @@
 
 ## Approach
 
-See a description of our [Approach](https://github.com/devis/18FAgileBPA#approach).
+See a description of our [Approach](#approach).
 
 The prototype is live at [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) using [Heroku IaaS](https://www.heroku.com)
 
