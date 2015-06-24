@@ -1,5 +1,13 @@
 // Lists
 
+ul.list-inline,
+ol.list-inline {
+    > li {
+        display: inline-block;
+        margin-right: 1rem;
+    }
+}
+
 ul.list-unstyled,
 ol.list-unstyled {
     > li {

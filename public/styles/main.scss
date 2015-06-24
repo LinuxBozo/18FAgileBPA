@@ -8,6 +8,10 @@ body {
     background-color: $tan;
 }
 
+.section {
+    margin-bottom: 2rem;
+}
+
 .hero {
     background-image: url('/images/home-bg-full.jpg');
     background-position: center center;
@@ -43,9 +47,16 @@ body {
     }
 }
 
+nav {
+    text-align: center;
+
+    ul {
+        margin-bottom: 0;
+    }
+}
+
 .recalls,
 .markets {
-    margin-top: 2rem;
     padding: 2rem;
     background-color: lighten($tan, 7%);
 
