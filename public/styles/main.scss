@@ -1,2 +1,89 @@
-@import "../../node_modules/normalize.css/normalize";
-@import "../../node_modules/skeleton.css/skeleton";
+@import "modules/base";
+
+@import "partials/browsehappy";
+@import "partials/header";
+@import "partials/footer";
+
+body {
+    background-color: $tan;
+}
+
+dt {
+    font-weight: 600;
+}
+
+dl.horizontal {
+    dt {
+        float: left;
+        width: 160px;
+        overflow: hidden;
+        clear: left;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    dd {
+        margin-left: 180px;
+    }
+}
+
+.hero {
+    background-image: url('/images/home-bg-full.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 600px;
+
+    .title {
+        position: relative;
+        top: 25px;
+        font-family: Lobster;
+        font-size: 7rem;
+        text-align: center;
+        color: #333;
+        text-shadow: rgba(0, 0, 0, 0.2) 2px 6px 5px, rgba(255, 255, 255, 0.4) 0px -4px 30px;
+    }
+
+    .tagline {
+        position: relative;
+        top: 20px;
+        font-size: 3.5rem;
+        text-align: center;
+    }
+
+    .location {
+        position: relative;
+        top: 65px;
+        text-align: center;
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+.recalls {
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: lighten($tan, 7%);
+
+    li {
+        list-style: none;
+    }
+
+    .description {
+        font-size: 2.4rem;
+        line-height: 1.35;
+        letter-spacing: -.08rem;
+    }
+
+    dl.horizontal {
+        dt {
+            width: 90px;
+        }
+        dd {
+            margin-left: 110px;
+        }
+    }
+}

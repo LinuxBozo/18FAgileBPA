@@ -1,0 +1,11 @@
+#skipTo {
+    display: inline-block;
+    padding: .5rem 0;
+    background: orange; color: $black;
+    text-align: center;
+    text-decoration: none;
+
+    &:hover, &:focus {
+
+    }
+}
