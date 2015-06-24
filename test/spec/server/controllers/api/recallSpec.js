@@ -3,8 +3,61 @@
 'use strict';
 
 var latLonVA = require('../../../../data/fcc-lat-lon-va.json');
+var zipVA = require('../../../../data/zippopotamus-24153.json');
 var latLonNull = require('../../../../data/fcc-lat-lon-null.json');
 var recallDataVA = require('../../../../data/food-recalls-va.json');
+
+describe('/api/recall/:zipcode', function() {
+
+    beforeEach(function() {
+        nock.cleanAll();
+    });
+
+    it('should return data when passed a valid zip', function(done) {
+
+        nock('http://api.zippopotam.us')
+        .get('/us/24153')
+        .reply(200, zipVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
+        .reply(200, recallDataVA);
+
+        request(mock)
+            .get('/api/recall/24153')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .expect(/"last_updated"/)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
+    it('should return 500 when passed an invalid zipcode', function(done) {
+        nock('http://api.zippopotam.us/')
+        .get('/us/2415')
+        .reply(404, {});
+
+        request(mock)
+            .get('/api/recall/2415')
+            .expect(500)
+            .expect('Content-Type', /json/)
+            .expect(/"msg"/)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
+    it('should return 404 due to too little parameters in path', function(done) {
+        request(mock)
+            .get('/api/recall')
+            .expect(404)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
+});
 
 describe('/api/recall/:lat/:lon', function() {
 
@@ -127,15 +180,6 @@ describe('/api/recall/:lat/:lon', function() {
     it('should return 404 due to too many parameters in path', function(done) {
         request(mock)
             .get('/api/recall/37/-80/0')
-            .expect(404)
-            .end(function(err, res) {
-                done(err);
-            });
-    });
-
-    it('should return 404 due to too little parameters in path', function(done) {
-        request(mock)
-            .get('/api/recall/37')
             .expect(404)
             .end(function(err, res) {
                 done(err);

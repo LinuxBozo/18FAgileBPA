@@ -28,6 +28,25 @@ describe('USDA Farmers Markets Api Service', function() {
 
     });
 
+    it('should return data in correct format when proper zip is used', function(done) {
+
+        expect(marketsDataVA.results[0]).to.not.have.property('distance');
+
+        nock('http://search.ams.usda.gov/')
+        .get('/farmersmarkets/v1/data.svc/zipSearch?zip=24153')
+        .reply(200, marketsDataVA);
+
+        UsdaMarketsApiService.getMarketsByZipcode('24153')
+        .then(function(result) {
+            expect(result).to.have.property('results');
+            expect(result.results.length).to.be(19);
+            expect(result.results[0]).to.have.property('distance');
+            expect(result.results[0].distance).to.be('0.4');
+            done();
+        });
+
+    });
+
     it('should return empty result set when invalid lat/long is used', function(done) {
 
         nock('http://search.ams.usda.gov/')
@@ -67,6 +86,20 @@ describe('USDA Farmers Markets Api Service', function() {
         .catch(function(err) {
             expect(err).to.not.be(null);
             expect(err).to.be('Invalid Latitude or Longitude');
+            done();
+        });
+    });
+
+    it('should reject when we do not have a valid zipcode', function(done) {
+
+        nock('http://search.ams.usda.gov/')
+        .get('/farmersmarkets/v1/data.svc/zipSearch?zip=2415')
+        .reply(200, marketsDataError);
+
+        UsdaMarketsApiService.getMarketsByZipcode('2415')
+        .catch(function(err) {
+            expect(err).to.not.be(null);
+            expect(err).to.be('Invalid Zipcode');
             done();
         });
     });

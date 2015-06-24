@@ -14,4 +14,14 @@ module.exports = function(router) {
         });
     });
 
+    router.get('/:zipcode', function(req, res) {
+        UsdaMarketsApiService.getMarketsByZipcode(req.params.zipcode)
+        .then(function(result) {
+            res.json(result);
+        })
+        .catch(function(err) {
+            res.status(500).json({msg: err});
+        });
+    });
+
 };

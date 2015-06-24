@@ -14,4 +14,14 @@ module.exports = function(router) {
         });
     });
 
+    router.get('/:zipcode', function(req, res) {
+        OpenFdaApiService.getRecallsByZipcode(req.params.zipcode, req.query.limit, req.query.skip)
+        .then(function(result) {
+            res.json(result);
+        })
+        .catch(function(err) {
+            res.status(500).json({msg: err});
+        });
+    });
+
 };
