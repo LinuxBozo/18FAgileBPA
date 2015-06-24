@@ -234,12 +234,25 @@ _See our [Approach Criteria Evidence](APPROACH_EVIDENCE.md)_
 With vision and high-level user stories completed, design software infrastructure best suited to solving this problem.
 
 #### Configuration Management
-* Back-end / API stack
-* Front-end / UI tools
+TODO:
+
+##### Back-end / API stack
+TODO:
+
+##### Front-end / UI tools
+TODO:
+
 #### Continuous Integration
+TODO:
+
 #### Application Monitoring
+TODO:
+
 #### Code Quality monitoring
+TODO:
+
 #### Continuous Deployment
+TODO:
 
 ### Design Session: Complete/Prioritize User Stories
 * for each story, lead a discussion between developers and users
