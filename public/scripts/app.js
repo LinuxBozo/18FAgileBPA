@@ -7,6 +7,7 @@ require('angular-resource');
 require('angular-route');
 require('angular-sanitize');
 require('angularjs-geolocation/dist/angularjs-geolocation.min.js');
+require('ng-dialog');
 
 var Promise = require('bluebird');
 
@@ -14,6 +15,7 @@ angular
     .module('adsApp', [
         'ngAria',
         'ngCookies',
+        'ngDialog',
         'ngResource',
         'ngRoute',
         'ngSanitize',
