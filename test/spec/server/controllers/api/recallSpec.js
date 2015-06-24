@@ -13,6 +13,26 @@ describe('/api/recall/:zipcode', function() {
         nock.cleanAll();
     });
 
+    it('should return data when passed a valid zip', function(done) {
+
+        nock('http://api.zippopotam.us')
+        .get('/us/24153')
+        .reply(200, zipVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
+        .reply(200, recallDataVA);
+
+        request(mock)
+            .get('/api/recall/24153')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .expect(/"last_updated"/)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
     it('should return 500 when passed an invalid zipcode', function(done) {
         nock('http://api.zippopotam.us/')
         .get('/us/2415')
