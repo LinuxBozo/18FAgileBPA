@@ -39,3 +39,4 @@ angular
     });
 
 require('./controllers');
+require('./directives');
