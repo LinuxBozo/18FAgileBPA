@@ -57,11 +57,11 @@ describe('Controller: MainCtrl', function() {
             expect(scope.location).toBe('Virginia');
         });
 
-        it('should default the recall metadata to null', function() {
+        it('should populate recallMetadata', function() {
             expect(scope.recallMetadata.last_updated).toBe('2015-05-31');
         });
 
-        it('should default the recall results to an empty list', function() {
+        it('should popupate recallResults', function() {
             expect(scope.recallResults.length).toBe(100);
         });
     });
