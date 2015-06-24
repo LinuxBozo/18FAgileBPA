@@ -5,11 +5,11 @@
 [![Test Coverage](https://codeclimate.com/github/devis/18FAgileBPA/badges/coverage.svg)](https://codeclimate.com/github/devis/18FAgileBPA/coverage)
 [![Code Climate](https://codeclimate.com/github/devis/18FAgileBPA/badges/gpa.svg)](https://codeclimate.com/github/devis/18FAgileBPA)
 
-This code is live at [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) using [Heroku IaaS](https://www.heroku.com)
+## Approach
 
+See a description of our [Approach](https://github.com/devis/18FAgileBPA#approach).
 
-See a description of our [Approach](#Approach).
-
+The prototype is live at [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) using [Heroku IaaS](https://www.heroku.com)
 
 ## Contributing
 
