@@ -4,6 +4,7 @@
 
 var OpenFdaApiService = require('../../../../services/OpenFdaApiService');
 var latLonVA = require('../../../data/fcc-lat-lon-va.json');
+var zipVA = require('../../../data/zippopotamus-24153.json');
 var latLonNull = require('../../../data/fcc-lat-lon-null.json');
 var recallDataVA = require('../../../data/food-recalls-va.json');
 
@@ -20,6 +21,29 @@ describe('openFDA Api Service', function() {
         .reply(200, recallDataVA);
 
         OpenFdaApiService.getRecallsByLatLong('37', '-80')
+        .then(function(result) {
+            expect(result).to.have.property('meta');
+            expect(result.meta).to.have.property('results');
+            expect(result.meta).to.have.property('state');
+            expect(result.meta.state).to.be('Virginia');
+            expect(result.meta.results).to.have.property('total');
+            expect(result.meta.results.total).to.be(2758);
+            done();
+        });
+
+    });
+
+    it('should return openFDA data when api key is not defined and proper zip is used', function(done) {
+
+        nock('http://api.zippopotam.us')
+        .get('/us/24153')
+        .reply(200, zipVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
+        .reply(200, recallDataVA);
+
+        OpenFdaApiService.getRecallsByZipcode('24153')
         .then(function(result) {
             expect(result).to.have.property('meta');
             expect(result.meta).to.have.property('results');
@@ -142,6 +166,20 @@ describe('openFDA Api Service', function() {
         .catch(function(err) {
             expect(err).to.not.be(null);
             expect(err).to.be('Invalid Latitude or Longitude');
+            done();
+        });
+    });
+
+    it('should reject when we do not have a valid zipcode', function(done) {
+
+        nock('http://api.zippopotam.us/')
+        .get('/us/2415')
+        .reply(404, {});
+
+        OpenFdaApiService.getRecallsByZipcode('2415')
+        .catch(function(err) {
+            expect(err).to.not.be(null);
+            expect(err).to.be('Invalid Zipcode');
             done();
         });
     });
