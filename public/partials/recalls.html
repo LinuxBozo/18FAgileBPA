@@ -1,7 +1,7 @@
 <section id="recalls" class="recalls row" ng-if="recallMetadata">
     <h2>Recent food recalls in {{location}}</h2>
     <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
-    <ul ng-if="recallResults">
+    <ul class="list-unstyled" ng-if="recallResults">
         <li ng-repeat="recall in recallResults | orderBy:'-recall_initiation_date'">
             <h3 class="description">{{recall.product_description | limitTo:70}}</h3>
             <dl class="horizontal">

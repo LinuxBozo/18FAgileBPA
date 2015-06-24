@@ -1,0 +1,29 @@
+// Lists
+
+ul.list-unstyled,
+ol.list-unstyled {
+    > li {
+        list-style: none;
+    }
+}
+
+// Definition lists
+dt {
+    font-weight: 600;
+}
+
+dl.horizontal {
+    dt {
+        float: left;
+        width: 160px;
+        overflow: hidden;
+        clear: left;
+        text-align: right;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    dd {
+        margin-left: 180px;
+    }
+}
