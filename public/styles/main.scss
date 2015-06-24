@@ -63,7 +63,8 @@ dl.horizontal {
     }
 }
 
-.recalls {
+.recalls,
+.markets {
     margin-top: 2rem;
     padding: 2rem;
     background-color: lighten($tan, 7%);
@@ -72,18 +73,32 @@ dl.horizontal {
         list-style: none;
     }
 
+    .name,
     .description {
         font-size: 2.4rem;
         line-height: 1.35;
         letter-spacing: -.08rem;
     }
+}
 
+.recalls {
     dl.horizontal {
         dt {
             width: 90px;
         }
         dd {
             margin-left: 110px;
+        }
+    }
+}
+
+.markets {
+    dl.horizontal {
+        dt {
+            width: 100px;
+        }
+        dd {
+            margin-left: 120px;
         }
     }
 }
