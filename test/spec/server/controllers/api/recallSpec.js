@@ -3,8 +3,41 @@
 'use strict';
 
 var latLonVA = require('../../../../data/fcc-lat-lon-va.json');
+var zipVA = require('../../../../data/zippopotamus-24153.json');
 var latLonNull = require('../../../../data/fcc-lat-lon-null.json');
 var recallDataVA = require('../../../../data/food-recalls-va.json');
+
+describe('/api/recall/:zipcode', function() {
+
+    beforeEach(function() {
+        nock.cleanAll();
+    });
+
+    it('should return 500 when passed an invalid zipcode', function(done) {
+        nock('http://api.zippopotam.us/')
+        .get('/us/2415')
+        .reply(404, {});
+
+        request(mock)
+            .get('/api/recall/2415')
+            .expect(500)
+            .expect('Content-Type', /json/)
+            .expect(/"msg"/)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
+    it('should return 404 due to too little parameters in path', function(done) {
+        request(mock)
+            .get('/api/recall')
+            .expect(404)
+            .end(function(err, res) {
+                done(err);
+            });
+    });
+
+});
 
 describe('/api/recall/:lat/:lon', function() {
 
@@ -127,15 +160,6 @@ describe('/api/recall/:lat/:lon', function() {
     it('should return 404 due to too many parameters in path', function(done) {
         request(mock)
             .get('/api/recall/37/-80/0')
-            .expect(404)
-            .end(function(err, res) {
-                done(err);
-            });
-    });
-
-    it('should return 404 due to too little parameters in path', function(done) {
-        request(mock)
-            .get('/api/recall/37')
             .expect(404)
             .end(function(err, res) {
                 done(err);
