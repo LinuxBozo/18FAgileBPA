@@ -1,0 +1,20 @@
+<div id="recalls" class="recalls row" ng-if="recallMetadata">
+    <h2>Recent food recalls in {{location}}</h2>
+    <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
+    <ul ng-if="recallResults">
+        <li ng-repeat="recall in recallResults | orderBy:'-recall_initiation_date'">
+            <h3 class="description">{{recall.product_description | limitTo:70}}</h3>
+            <dl class="horizontal">
+                <dt class="date">Recall Date</dt>
+                <dd class="date">{{recall.recall_initiation_date +'T000000Z' | date:'mediumDate'}}</dd>
+
+                <dt class="date">Reason</dt>
+                <dd class="date">{{recall.reason_for_recall}}</dd>
+
+                <dt class="date">Code</dt>
+                <dd class="date">{{recall.code_info}}</dd>
+            </dl>
+        </li>
+    </ul>
+    <p ng-if="!recallResults">No recalled foods were found in your area. Eat whatever you want!</p>
+</div>
