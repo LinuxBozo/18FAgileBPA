@@ -1,4 +1,4 @@
-<div id="recalls" class="recalls row" ng-if="recallMetadata">
+<section id="recalls" class="recalls row" ng-if="recallMetadata">
     <h2>Recent food recalls in {{location}}</h2>
     <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
     <ul ng-if="recallResults">
@@ -17,4 +17,4 @@
         </li>
     </ul>
     <p ng-if="!recallResults">No recalled foods were found in your area. Eat whatever you want!</p>
-</div>
+</section>
