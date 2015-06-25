@@ -266,12 +266,12 @@ With user stories completed and prioritized, conduct initial release planning me
 * Group the stories into multiple releases, based on users priorities and developer time estimates  
 * Break user stories into tasks
 * Assign stories to developers for the first iteration
-* Publish a project [Project Road Map](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map) with our initial release specified as our minimum viable product.
+* Publish a project [Project Road Map](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map) with our initial release specified as our minimum viable product (MVP).
 
 ## Daily Scrum
 Start iterative development process. Given the compressed time frame:
 * Use continuous deployment so the latest code would always be on the prototype server, so planning specific releases became less important
-* Use a more flexible iteration process: First iteration would include user stories for a minimum viable product. 
+* Use a more flexible iteration process: First iteration would include user stories for an MVP.
   * took responsibility for producing an MVP by the submission date.
   * subsequent iterations could be planned during daily scrums to add additional features from our release plan and road map
 
