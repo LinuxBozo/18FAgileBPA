@@ -90,7 +90,7 @@ module.exports = function(grunt) {
             'jscs',
             'jshint',
             'browserify:dev',
-            'sass',
+            'sass:serve',
             'concurrent:local',
             'autoprefixer',
             'develop',

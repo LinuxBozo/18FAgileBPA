@@ -5,6 +5,9 @@ module.exports = function watch(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     return {
+        options: {
+            livereload: true
+        },
         server: {
             files: [
                 'index.js',
@@ -15,19 +18,23 @@ module.exports = function watch(grunt) {
             ],
             tasks: ['jscs:all', 'jshint', 'develop'],
             options: {
+                livereload: false,
                 spawn: false
             }
         },
-        client: {
+        sass: {
+            files: ['public/styles/**/*.scss'],
+            tasks: ['sass:serve', 'copy:styles']
+        },
+        js: {
+            files: ['public/scripts/**/*.js'],
+            tasks: ['jscs:all', 'jshint', 'browserify:dev']
+        },
+        livereload: {
             files: [
-                'public/**/*',
-                '!public/bundle/*.js'
-            ],
-            tasks: ['jscs:all', 'jshint', 'browserify:dev'],
-            options: {
-                livereload: true
-            }
+              'public/**/*.html',
+              'public/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+            ]
         }
     };
-
 };
