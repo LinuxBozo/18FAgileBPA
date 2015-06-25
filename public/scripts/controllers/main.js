@@ -8,8 +8,8 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
     $scope.recallMetadata = null;
     $scope.recallResults = [];
     $scope.markets = [];
+    $scope.coords = {};
     $scope.zipcode = '';
-
 
     $scope.resetRecallData = function() {
         $scope.recallMetadata = null;
@@ -21,23 +21,37 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
             $scope.location = response.data.meta.state;
             $scope.recallMetadata = response.data.meta;
             $scope.recallResults = response.data.results;
+        })
+        .catch(function(data) {
+            $scope.location = 'No data for your ZIP: ' + $scope.zipcode;
+            $scope.resetRecallData();
         });
 
         $http.get('/api/market/' + $scope.zipcode).then(function(response) {
             $scope.markets = response.data.results;
+        }).catch(function(data) {
+            $scope.location = 'No data for your ZIP: ' + $scope.zipcode;
+            $scope.markets = [];
         });
     };
 
     $scope.getLocationData = function() {
         geolocation.getLocation().then(function(data) {
-            $http.get('/api/recall/' + data.coords.latitude + '/' + data.coords.longitude).then(function(response) {
+            $scope.coords = data.coords;
+            $http.get('/api/recall/' + $scope.coords.latitude + '/' + $scope.coords.longitude).then(function(response) {
                 $scope.location = response.data.meta.state;
                 $scope.recallMetadata = response.data.meta;
                 $scope.recallResults = response.data.results;
+            }).catch(function(data) {
+                $scope.location = 'No data for your location..';
+                $scope.resetRecallData();
             });
 
-            $http.get('/api/market/' + data.coords.latitude + '/' + data.coords.longitude).then(function(response) {
+            $http.get('/api/market/' + $scope.coords.latitude + '/' + $scope.coords.longitude).then(function(response) {
                 $scope.markets = response.data.results;
+            }).catch(function(data) {
+                $scope.location = 'No data for your location..';
+                $scope.markets = [];
             });
         });
     };
@@ -53,15 +67,17 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
             scope: $scope
         });
         locationDialog.closePromise.then(function(data) {
-            if (data.value === 'currentLocation') {
-                $scope.resetRecallData();
-                $scope.location = 'Trying to find you...';
-                $scope.getLocationData();
-            } else if (data.value !== '') {
-                $scope.zipcode = data.value;
-                $scope.resetRecallData();
-                $scope.location = 'Getting data for ' + $scope.zipcode;
-                $scope.getZipcodeData();
+            if (data.value && data.value !== '' && data.value !== '$closeButton') {
+                if (data.value === 'currentLocation') {
+                    $scope.resetRecallData();
+                    $scope.location = 'Trying to find you...';
+                    $scope.getLocationData();
+                } else {
+                    $scope.zipcode = data.value;
+                    $scope.resetRecallData();
+                    $scope.location = 'Getting data for ' + $scope.zipcode;
+                    $scope.getZipcodeData();
+                }
             }
         });
     };

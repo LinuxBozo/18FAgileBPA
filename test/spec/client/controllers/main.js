@@ -14,6 +14,7 @@ describe('Controller: MainCtrl', function() {
         httpBackend,
         geolocation,
         mockNgDialog,
+        mockNgDialogPromise,
         lat = 32, lon = -105,
         zipcode = 24153,
         coords = {latitude: lat, longitude: lon};
@@ -30,24 +31,11 @@ describe('Controller: MainCtrl', function() {
         deferred.resolve({coords: coords});
         spyOn(geolocation, 'getLocation').and.returnValue(deferred.promise);
 
-        var mockNgDialogPromise = {
-            closePromise: {
-                then: function(callback) {
-                    callback({value:'24153'});
-                }
-            }
-        };
-        mockNgDialog = {
-            open: function() {},
-            close: function() {}
-        };
-        spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
-
         controller('MainCtrl', {
             $scope: scope,
-            geolocation: geolocation,
-            ngDialog: mockNgDialog
+            geolocation: geolocation
         });
+
     }));
 
     describe('initial state', function() {
@@ -67,13 +55,9 @@ describe('Controller: MainCtrl', function() {
             expect(scope.markets).toEqual([]);
         });
 
-        it('should not open the location dialog', function() {
-            expect(mockNgDialog.open).not.toHaveBeenCalled();
-        });
-
     });
 
-    describe('when browser returns geolocation', function() {
+    describe('when browser returns valid geolocation', function() {
         beforeEach(function() {
             recallDataVA.meta.state = 'Virginia';
             httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
@@ -104,7 +88,33 @@ describe('Controller: MainCtrl', function() {
         });
     });
 
-    describe('when zipcode is set, and recall API is requested', function() {
+    describe('when browser returns invalid geolocation', function() {
+        beforeEach(function() {
+            recallDataVA.meta.state = 'Virginia';
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(500, '');
+            httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(500, '');
+            httpBackend.flush();
+        });
+
+        it('should set location to error message', function() {
+            expect(scope.location).toBe('No data for your location..');
+        });
+
+        it('should default the recall metadata to null', function() {
+            expect(scope.recallMetadata).toBe(null);
+        });
+
+        it('should default the recall results to an empty list', function() {
+            expect(scope.recallResults).toEqual([]);
+        });
+
+        it('should default the market results to an empty list', function() {
+            expect(scope.markets).toEqual([]);
+        });
+
+    });
+
+    describe('when valid zipcode is set', function() {
 
         beforeEach(function() {
             httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
@@ -143,11 +153,131 @@ describe('Controller: MainCtrl', function() {
 
     });
 
-    describe('openLocationDialog()', function() {
+    describe('when invalid zipcode is set', function() {
+        beforeEach(function() {
+            recallDataVA.meta.state = 'Virginia';
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
+            httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(marketsVa);
+            httpBackend.flush();
+        });
 
-        it('should open location dialog', function() {
+        beforeEach(function() {
+            scope.zipcode = 'foo';
+            scope.getZipcodeData();
+            httpBackend.whenGET('/api/recall/' + scope.zipcode).respond(500, '');
+            httpBackend.whenGET('/api/market/' + scope.zipcode).respond(500, '');
+            httpBackend.flush();
+        });
+
+        it('should set location to error message', function() {
+            expect(scope.location).toBe('No data for your ZIP: foo');
+        });
+
+        it('should default the recall metadata to null', function() {
+            expect(scope.recallMetadata).toBe(null);
+        });
+
+        it('should default the recall results to an empty list', function() {
+            expect(scope.recallResults).toEqual([]);
+        });
+
+        it('should default the market results to an empty list', function() {
+            expect(scope.markets).toEqual([]);
+        });
+    });
+
+    describe('openLocationDialog(), promise returns zipcode', function() {
+
+        beforeEach(function() {
+            var mockNgDialogPromise = {
+                closePromise: {
+                    then: function(callback) {
+                        callback({value:zipcode});
+                    }
+                }
+            };
+            mockNgDialog = {
+                open: function() {},
+                close: function() {}
+            };
+            spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
+
+            controller('MainCtrl', {
+                $scope: scope,
+                geolocation: geolocation,
+                ngDialog: mockNgDialog
+            });
+        });
+
+        it('should open location dialog, set proper location with promise', function() {
+            scope.location = 'Foobar';
             scope.openLocationDialog();
             expect(mockNgDialog.open).toHaveBeenCalled();
+            expect(scope.location).toBe('Getting data for ' + zipcode);
+        });
+
+    });
+
+    describe('openLocationDialog(), promise returns currentLocation', function() {
+
+        beforeEach(function() {
+            var mockNgDialogPromise = {
+                closePromise: {
+                    then: function(callback) {
+                        callback({value:'currentLocation'});
+                    }
+                }
+            };
+            mockNgDialog = {
+                open: function() {},
+                close: function() {}
+            };
+            spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
+
+            controller('MainCtrl', {
+                $scope: scope,
+                geolocation: geolocation,
+                ngDialog: mockNgDialog
+            });
+        });
+
+        it('should open location dialog, set proper location with promise', function() {
+            scope.location = 'Foobar';
+            scope.openLocationDialog();
+            expect(mockNgDialog.open).toHaveBeenCalled();
+            expect(scope.location).toBe('Trying to find you...');
+        });
+
+    });
+
+    describe('openLocationDialog(), promise returns close button click', function() {
+
+        beforeEach(function() {
+            var mockNgDialogPromise = {
+                closePromise: {
+                    then: function(callback) {
+                        callback({value:'$closeButton'});
+                    }
+                }
+            };
+            mockNgDialog = {
+                open: function() {},
+                close: function() {}
+            };
+            spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
+
+            controller('MainCtrl', {
+                $scope: scope,
+                geolocation: geolocation,
+                ngDialog: mockNgDialog
+            });
+        });
+
+        it('should open location dialog, keep location with promise', function() {
+            scope.location = 'Foobar';
+            scope.openLocationDialog();
+            expect(mockNgDialog.open).toHaveBeenCalled();
+            expect(scope.location).toBe('Foobar');
         });
 
     });
