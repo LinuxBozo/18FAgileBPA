@@ -31,6 +31,11 @@ describe('Controller: MainCtrl', function() {
         deferred.resolve({coords: coords});
         spyOn(geolocation, 'getLocation').and.returnValue(deferred.promise);
 
+        mockNgDialog = {
+            open: function() {},
+            close: function() {}
+        };
+
         controller('MainCtrl', {
             $scope: scope,
             geolocation: geolocation
@@ -189,17 +194,14 @@ describe('Controller: MainCtrl', function() {
     describe('openLocationDialog(), promise returns zipcode', function() {
 
         beforeEach(function() {
-            var mockNgDialogPromise = {
+            mockNgDialogPromise = {
                 closePromise: {
                     then: function(callback) {
                         callback({value:zipcode});
                     }
                 }
             };
-            mockNgDialog = {
-                open: function() {},
-                close: function() {}
-            };
+
             spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
 
             controller('MainCtrl', {
@@ -221,17 +223,14 @@ describe('Controller: MainCtrl', function() {
     describe('openLocationDialog(), promise returns currentLocation', function() {
 
         beforeEach(function() {
-            var mockNgDialogPromise = {
+            mockNgDialogPromise = {
                 closePromise: {
                     then: function(callback) {
                         callback({value:'currentLocation'});
                     }
                 }
             };
-            mockNgDialog = {
-                open: function() {},
-                close: function() {}
-            };
+
             spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
 
             controller('MainCtrl', {
@@ -253,17 +252,14 @@ describe('Controller: MainCtrl', function() {
     describe('openLocationDialog(), promise returns close button click', function() {
 
         beforeEach(function() {
-            var mockNgDialogPromise = {
+            mockNgDialogPromise = {
                 closePromise: {
                     then: function(callback) {
                         callback({value:'$closeButton'});
                     }
                 }
             };
-            mockNgDialog = {
-                open: function() {},
-                close: function() {}
-            };
+
             spyOn(mockNgDialog, 'open').and.returnValue(mockNgDialogPromise);
 
             controller('MainCtrl', {
