@@ -1,0 +1,11 @@
+<form class="u-full-width">
+    <h2>My Location</h2>
+    <div class="row">
+        <div class="six columns">
+            <label for="zipcode">ZIP code</label>
+            <input class="u-full-width" id="zipcode" ng-model="zipcode">
+        </div>
+    </div>
+    <button type="submit" ng-click="setZip()" class="button-primary">Go</button>
+    <button type="submit" ng-click="findLocation()">Find Me</button>
+</form>
