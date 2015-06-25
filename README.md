@@ -5,13 +5,12 @@
 [![Test Coverage](https://codeclimate.com/github/devis/18FAgileBPA/badges/coverage.svg)](https://codeclimate.com/github/devis/18FAgileBPA/coverage)
 [![Code Climate](https://codeclimate.com/github/devis/18FAgileBPA/badges/gpa.svg)](https://codeclimate.com/github/devis/18FAgileBPA)
 
-This code is live at [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) using [Heroku IaaS](https://www.heroku.com)
+## Links
 
-## Technical Approach
-
-Approach description
-
-_See our [Approach Criteria Evidence](APPROACH_EVIDENCE.md)_
+* Prototype: [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) continuously deployed on [Heroku IaaS](https://www.heroku.com)
+* Our [Approach](#approach) to developing the prototype
+* [Project Vision](https://github.com/devis/18FAgileBPA/wiki/Project-Charter#vision)
+* [Project Roadmap](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map)
 
 ## Contributing
 
@@ -198,3 +197,86 @@ Make sure you have a proper [datadog agent](http://docs.datadoghq.com/guides/bas
 Next, [get your datadog API key](https://app.datadoghq.com/account/settings#api). Modify your service script (if you created one) to export the variable `DATADOG_API_KEY` and set it to your newly created key.
 
 Once you restart your service, and have traffic coming in, you should now have some basic stats in your datadog account that you can now report. These stats start with the key of `node.express`.
+
+## Approach
+
+_See our [Approach Criteria Evidence](APPROACH_EVIDENCE.md)_
+
+###Initial status
+* Received notice of openFDA data source
+* Stakeholders
+  * Appointed internal staff as proxy users
+  * Proxy users conducted brainstorming sessions to identify a problem we could solve using openFDA data
+* Now with a problem defined, and a client to work for, we began our normal process, modified somewhat given the compressed timeframe and unusual circumstances.
+
+### Project Initiation / Communication Plan
+* Identify roles
+* Name a Product Owner
+* Create Project Plan and Schedule
+* Specify Communications Plan
+  * Set up chat room
+  * Set scrum time
+  * Set up code repository, issue tracker, project wiki
+* Conduct project kickoff meeting with the client (in this case our proxy users)
+* Create Risk Management plan, to be updated
+  * during and after requirements elicitation with the customer
+  * during release and iteration planning meetings
+  * during retrospectives
+
+### Initial Requirements Elicitation and Design Session
+* Craft a [vision](https://github.com/devis/18FAgileBPA/wiki/Project-Charter#vision) for the project with users
+* Conduct requirements workshop
+* Produce draft user stories (no acceptance criteria yet)
+* Initial prioritization of features/stories
+* Enter draft users stories directly as Github issues, with a 'user-story' label
+
+### Technical Approach
+With vision and high-level user stories completed, design software infrastructure best suited to solving this problem.
+
+#### Configuration Management
+TODO:
+
+##### Back-end / API stack
+TODO:
+
+##### Front-end / UI tools
+TODO:
+
+#### Continuous Integration
+TODO:
+
+#### Application Monitoring
+TODO:
+
+#### Code Quality monitoring
+TODO:
+
+#### Continuous Deployment
+TODO:
+
+### Design Session: Complete/Prioritize User Stories
+* for each story, lead a discussion between developers and users
+  * add acceptance criteria to users stories
+  * update stories or add new ones as required
+* prioritize stories according according to business value, as determined by users
+
+### Release Planning/Iteration Planning
+With user stories completed and prioritized, conduct initial release planning meeting:
+* Add estimates to each story
+* Group the stories into multiple releases, based on users priorities and developer time estimates  
+* Break user stories into tasks
+* Assign stories to developers for the first iteration
+* Publish a project [Project Road Map](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map) with our initial release specified as our minimum viable product (MVP).
+
+## Daily Scrum
+Start iterative development process. Given the compressed time frame:
+* Use continuous deployment so the latest code would always be on the prototype server, so planning specific releases became less important
+* Use a more flexible iteration process: First iteration would include user stories for an MVP.
+  * took responsibility for producing an MVP by the submission date.
+  * subsequent iterations could be planned during daily scrums to add additional features from our release plan and road map
+
+## Acceptance Testing
+* Using continuous deployment allowed continuous testing
+* Product Owner performed acceptance testing as builds were deployed, incorporating additional testing feedback from users
+  * Throughout testing, new issues or defects were recorded, and new user stories added to the backlog
+  * Product Owner closed user stories as acceptance criteria were met
