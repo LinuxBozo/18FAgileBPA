@@ -60,6 +60,13 @@ describe('Controller: MainCtrl', function() {
             expect(scope.markets).toEqual([]);
         });
 
+        it('should default the keyword search to an empty string', function() {
+            expect(scope.recallSearch).toBe('');
+        });
+
+        it('should default the date filter to "6 months"', function() {
+            expect(scope.recallAge.text).toBe('6 months');
+        });
     });
 
     describe('when browser returns valid geolocation', function() {

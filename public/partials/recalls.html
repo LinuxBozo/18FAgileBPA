@@ -1,6 +1,22 @@
 <section id="recalls" class="recalls row section" aria-live="polite" ng-if="recallMetadata">
     <h2>Recent food recalls in {{location}}</h2>
     <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
+
+    <form>
+        <h3 class="faux-legend">Narrow your results</h3>
+        <div class="row">
+            <div class="six columns">
+                <label for="recallSearch">Search recall descriptions</label>
+                <input type="search" id="recallSearch" class="u-full-width" value="" placeholder="e.g. ice cream, ACME Foods, etc&hellip;" name="recallSearch" ng-model="recallSearch">
+            </div>
+            <div class="six columns">
+                <label for="recallAge">Recalls within (months)</label>
+                <select id="recallAge" class="u-full-width" ng-model="recallAge" ng-options="age.text for age in recallAgeOptions track by age.value"></select>
+            </div>
+        </div>
+        <button type="submit">Go</button>
+    </form>
+
     <ul class="list-unstyled" ng-if="recallResults">
         <li ng-repeat="recall in recallResults | orderBy:'-recall_initiation_date'">
             <h3 class="description">{{recall.product_description | limitTo:70}}</h3>
