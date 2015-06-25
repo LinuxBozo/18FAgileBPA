@@ -23,7 +23,7 @@ module.exports = function watch(grunt) {
                 'public/**/*',
                 '!public/bundle/*.js'
             ],
-            tasks: ['jscs:all', 'jshint', 'browserify:dev', 'build'],
+            tasks: ['jscs:all', 'jshint', 'browserify:dev'],
             options: {
                 livereload: true
             }
