@@ -40,6 +40,7 @@ node_modules
 
 docs/*
 
+.tmp/
 public/bundle
 
 # Ignore the compiled CSS files

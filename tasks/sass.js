@@ -9,6 +9,11 @@ module.exports = function sass(grunt) {
         options: {
             sourceMap: true
         },
+        serve: {
+            files: {
+                'public/styles/main.css': 'public/styles/main.scss'
+            }
+        },
         dist: {
             sourceMap: false,
             files: {
