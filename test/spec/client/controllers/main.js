@@ -64,7 +64,7 @@ describe('Controller: MainCtrl', function() {
             expect(scope.recallFilters.keywords).toBe('');
         });
 
-        it('should default the date filter to "6 months"', function() {
+        it('should default the date filter to "3 months"', function() {
             expect(scope.recallFilters.age).toBe('3');
         });
     });
