@@ -2,10 +2,12 @@
 
 'use strict';
 
-var latLonVA = require('../../../../data/fcc-lat-lon-va.json');
-var zipVA = require('../../../../data/zippopotamus-24153.json');
-var latLonNull = require('../../../../data/fcc-lat-lon-null.json');
-var recallDataVA = require('../../../../data/food-recalls-va.json');
+var latLonVA = require('../../../../data/fcc-lat-lon-va.json'),
+    zipVA = require('../../../../data/zippopotamus-24153.json'),
+    latLonNull = require('../../../../data/fcc-lat-lon-null.json'),
+    recallDataVA = require('../../../../data/food-recalls-va.json'),
+    recallDataVAThreeMonths = require('../../../../data/food-recalls-va-3-months.json'),
+    moment = require('moment');
 
 describe('/api/recall/:zipcode', function() {
 
@@ -141,6 +143,62 @@ describe('/api/recall/:lat/:lon', function() {
             .expect('Content-Type', /json/)
             .expect(/"last_updated"/)
             .end(function(err, res) {
+                done(err);
+            });
+    });
+
+    it('should return data when passed a valid lat and lon and age', function(done) {
+
+        var now = moment(),
+            endDate = now.format('YYYY-MM-DD'),
+            startDate = now.subtract(3, 'months').format('YYYY-MM-DD');
+
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=37&longitude=-80')
+        .reply(200, latLonVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)%20AND%20recall_initiation_date%3A%5B' + startDate + '%20TO%20' + endDate + '%5D')
+        .reply(200, recallDataVAThreeMonths);
+
+        request(mock)
+            .get('/api/recall/37/-80?age=3')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                var text = JSON.parse(res.text);
+                expect(text).to.have.property('meta');
+                expect(text.meta).to.have.property('results');
+                expect(text.meta.results).to.have.property('total');
+                expect(text.meta.results.total).to.be(22);
+                done(err);
+            });
+
+    });
+
+    it('should return empty results when openFDA has no results', function(done) {
+        var now = moment(),
+            endDate = now.format('YYYY-MM-DD'),
+            startDate = now.subtract(1, 'months').format('YYYY-MM-DD');
+
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=37&longitude=-80')
+        .reply(200, latLonVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)%20AND%20recall_initiation_date%3A%5B' + startDate + '%20TO%20' + endDate + '%5D')
+        .reply(404, {});
+
+        request(mock)
+            .get('/api/recall/37/-80?age=1')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                var text = JSON.parse(res.text);
+                expect(text).to.have.property('meta');
+                expect(text.meta).to.not.have.property('last_updated');
+                expect(text).to.have.property('results');
+                expect(text.results.length).to.be(0);
                 done(err);
             });
     });
