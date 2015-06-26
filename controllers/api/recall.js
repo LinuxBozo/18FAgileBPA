@@ -5,7 +5,7 @@ var OpenFdaApiService = require('../../services/OpenFdaApiService');
 module.exports = function(router) {
 
     router.get('/:lat/:lon', function(req, res) {
-        OpenFdaApiService.getRecallsByLatLong(req.params.lat, req.params.lon, req.query.age, req.query.limit, req.query.skip)
+        OpenFdaApiService.getRecallsByLatLong({lat: req.params.lat, lon: req.params.lon}, req.query.keywords, req.query.age, req.query.limit, req.query.skip)
         .then(function(result) {
             res.json(result);
         })
@@ -15,7 +15,7 @@ module.exports = function(router) {
     });
 
     router.get('/:zipcode', function(req, res) {
-        OpenFdaApiService.getRecallsByZipcode(req.params.zipcode, req.query.age, req.query.limit, req.query.skip)
+        OpenFdaApiService.getRecallsByZipcode(req.params.zipcode, req.query.keywords, req.query.age, req.query.limit, req.query.skip)
         .then(function(result) {
             res.json(result);
         })
