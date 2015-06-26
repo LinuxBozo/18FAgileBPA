@@ -1,11 +1,14 @@
 <form class="u-full-width">
     <h2>Change My Location</h2>
-    <div class="row ten columns">
+    <div class="row center-text">
         <label for="zipcode">ZIP Code</label>
-        <input type="text" id="zipcode" ng-model="zipcode">
-        <button type="submit" ng-click="setZip()" class="button-primary">Go</button>
+        <input type="text" id="zipcode" maxlength="5" ng-model="zipcode">
+        <button type="submit" ng-click="setZip()" class="button-primary">Set</button>
     </div>
-    <div class="row">
-        <button class="ten columns button-primary" type="submit" ng-click="findLocation()">Use my current location</button>
+
+    <div class="row center-text">
+        <p class="or"><span role="presentation">-</span> or <span role="presentation">-</span></p>
+        <button class="button-primary" type="submit" ng-click="findLocation()">Use my current location</button>
+        <p class="note">Requires Geolocation services</p>
     </div>
 </form>

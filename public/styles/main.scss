@@ -90,3 +90,21 @@ nav {
         }
     }
 }
+
+
+.ngdialog {
+    label {
+        display: inline;
+    }
+    .or {
+        margin-bottom: 1.5rem;
+    }
+    .note {
+        font-size: 1rem;
+        margin-bottom: 0;
+    }
+    #zipcode {
+        width: 10rem;
+        margin: 0 1rem;
+    }
+}
