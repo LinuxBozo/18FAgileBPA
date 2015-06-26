@@ -2,11 +2,13 @@
 
 'use strict';
 
-var OpenFdaApiService = require('../../../../services/OpenFdaApiService');
-var latLonVA = require('../../../data/fcc-lat-lon-va.json');
-var zipVA = require('../../../data/zippopotamus-24153.json');
-var latLonNull = require('../../../data/fcc-lat-lon-null.json');
-var recallDataVA = require('../../../data/food-recalls-va.json');
+var OpenFdaApiService = require('../../../../services/OpenFdaApiService'),
+    latLonVA = require('../../../data/fcc-lat-lon-va.json'),
+    zipVA = require('../../../data/zippopotamus-24153.json'),
+    latLonNull = require('../../../data/fcc-lat-lon-null.json'),
+    recallDataVA = require('../../../data/food-recalls-va.json'),
+    recallDataVAThreeMonths = require('../../../data/food-recalls-va-3-months.json'),
+    moment = require('moment');
 
 describe('openFDA Api Service', function() {
 
@@ -56,6 +58,58 @@ describe('openFDA Api Service', function() {
 
     });
 
+    it('should return empty result set when openFDA has no results that match query', function(done) {
+
+        var now = moment(),
+            endDate = now.format('YYYY-MM-DD'),
+            startDate = now.subtract(1, 'months').format('YYYY-MM-DD');
+
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=37&longitude=-80')
+        .reply(200, latLonVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)%20AND%20recall_initiation_date%3A%5B' + startDate + '%20TO%20' + endDate + '%5D')
+        .reply(404, {});
+
+        OpenFdaApiService.getRecallsByLatLong('37', '-80', 3, null, null)
+        .then(function(result) {
+            expect(result).to.have.property('meta');
+            expect(result.meta).to.not.have.property('results');
+            expect(result.meta).to.have.property('state');
+            expect(result.meta.state).to.be('Virginia');
+            expect(result).to.have.property('results');
+            expect(result.results.length).to.be(0);
+            done();
+        });
+
+    });
+
+    it('should return openFDA data with proper age', function(done) {
+
+        var now = moment(),
+            endDate = now.format('YYYY-MM-DD'),
+            startDate = now.subtract(3, 'months').format('YYYY-MM-DD');
+
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=37&longitude=-80')
+        .reply(200, latLonVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)%20AND%20recall_initiation_date%3A%5B' + startDate + '%20TO%20' + endDate + '%5D')
+        .reply(200, recallDataVAThreeMonths);
+
+        OpenFdaApiService.getRecallsByLatLong('37', '-80', 3, null, null)
+        .then(function(result) {
+            expect(result).to.have.property('meta');
+            expect(result.meta).to.have.property('results');
+            expect(result.meta.results).to.have.property('total');
+            expect(result.meta.results.total).to.be(22);
+            done();
+        });
+
+    });
+
     it('should return openFDA data with proper limit', function(done) {
 
         nock('https://data.fcc.gov')
@@ -66,7 +120,7 @@ describe('openFDA Api Service', function() {
         .get('/food/enforcement.json?limit=10&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
         .reply(200, recallDataVA);
 
-        OpenFdaApiService.getRecallsByLatLong('37', '-80', 10, null)
+        OpenFdaApiService.getRecallsByLatLong('37', '-80', null, 10, null)
         .then(function(result) {
             expect(result).to.have.property('meta');
             expect(result.meta).to.have.property('results');
@@ -87,7 +141,7 @@ describe('openFDA Api Service', function() {
         .get('/food/enforcement.json?limit=100&skip=10&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
         .reply(200, recallDataVA);
 
-        OpenFdaApiService.getRecallsByLatLong('37', '-80', null, 10)
+        OpenFdaApiService.getRecallsByLatLong('37', '-80', null, null, 10)
         .then(function(result) {
             expect(result).to.have.property('meta');
             expect(result.meta).to.have.property('results');
@@ -108,7 +162,7 @@ describe('openFDA Api Service', function() {
         .get('/food/enforcement.json?limit=20&skip=20&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)')
         .reply(200, recallDataVA);
 
-        OpenFdaApiService.getRecallsByLatLong('37', '-80', 20, 20)
+        OpenFdaApiService.getRecallsByLatLong('37', '-80', null, 20, 20)
         .then(function(result) {
             expect(result).to.have.property('meta');
             expect(result.meta).to.have.property('results');
