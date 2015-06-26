@@ -1,6 +1,9 @@
 // Color definitions
-
 $black: #111;
 $darkgray: #333;
 $white: #FFF;
 $tan: #EEE7D6;
+$green: #5A802E;
+
+// Override Skeleton's default colors
+$primary-color: $green;
