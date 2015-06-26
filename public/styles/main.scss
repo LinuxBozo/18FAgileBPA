@@ -54,6 +54,9 @@ nav {
     ul {
         margin-bottom: 0;
     }
+    .button-description {
+        display: block;
+    }
 }
 
 .recalls,
@@ -82,7 +85,7 @@ nav {
 
 .markets {
     .name {
-        font-size: 2rem; 
+        font-size: 2rem;
     }
     dl.horizontal {
         dt {
