@@ -9,6 +9,11 @@ body {
     background-color: $tan;
 }
 
+footer {
+    a {
+        color: #004b85;
+    }
+}
 .section {
     margin-bottom: 2rem;
 }
@@ -113,4 +118,27 @@ nav {
         width: 10rem;
         margin: 0 1rem;
     }
+}
+
+// Override skeleteton's default colors to make them more accessible.
+.button.button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:hover,
+button.button-primary:focus {
+  color: $white;
+  background-color: darken($green, 10%);
+  border-color: darken($green, 10%);
+}
+
+input {
+  &[type="submit"].button-primary:hover,
+  &[type="submit"].button-primary:focus,
+  &[type="reset"].button-primary:hover,
+  &[type="reset"].button-primary:focus,
+  &[type="button"].button-primary:hover,
+  &[type="button"].button-primary:focus {
+      color: $white;
+      background-color: darken($green, 10%);
+      border-color: darken($green, 10%);
+  }
 }
