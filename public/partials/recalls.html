@@ -13,7 +13,7 @@
             </div>
         </div>
         <button type="submit" class="button-primary">Apply</button>
-        <button type="reset" class="">Reset</button>
+        <button ng-click="resetFilters()" type="reset" class="">Reset</button>
     </form>
 
     <ul class="list-unstyled" ng-if="recallResults">
@@ -31,6 +31,7 @@
             </dl>
         </li>
     </ul>
-    <p ng-if="!recallResults">No recalled foods were found in your area. Eat whatever you want!</p>
-    <p><small>The FDA recall data was last updated {{recallMetadata.last_updated | date:'mediumDate'}}</small></p>
+    <p ng-if="recallMetadata.last_updated && recallResults"><small>The FDA recall data was last updated {{recallMetadata.last_updated | date:'mediumDate'}}</small></p>
+    <div class="center-text" ng-if="! recallResults">Loading results...</div>
+    <p ng-if="! recallMetadata.last_updated && recallResults.length === 0">No recalled foods were found in your area. Eat whatever you want!</p>
 </section>

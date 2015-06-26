@@ -29,6 +29,12 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
         $scope.recallResults = [];
     };
 
+    $scope.resetFilters = function() {
+        $scope.recallFilters.keywords = '';
+        $scope.recallFilters.age = $scope.recallAgeOptions[1].value // default: 3 months
+        $scope.applyFilters();
+    };
+
     // Get recall and farmers market data for a given zip code
     $scope.getZipcodeData = function() {
         $http.get('/api/recall/' + $scope.zipcode, {params: $scope.recallFilters}).then(function(response) {
@@ -72,6 +78,7 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
     };
 
     $scope.applyFilters = function() {
+        $scope.recallResults = null;
         if ($scope.zipcode) {
             $scope.getZipcodeData();
         } else {
@@ -92,10 +99,12 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
         locationDialog.closePromise.then(function(data) {
             if (data.value && data.value !== '' && data.value !== '$closeButton') {
                 if (data.value === 'currentLocation') {
+                    $scope.zipcode = '';
                     $scope.resetRecallData();
                     $scope.location = 'Trying to find you...';
                     $scope.getLocationData();
                 } else {
+                    $scope.coords = {};
                     $scope.zipcode = data.value;
                     $scope.resetRecallData();
                     $scope.location = 'Getting data for ' + $scope.zipcode;

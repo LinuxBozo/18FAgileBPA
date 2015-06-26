@@ -307,4 +307,49 @@ describe('Controller: MainCtrl', function() {
             });
         });
     });
+
+    describe('when user clicks reset filters', function() {
+        beforeEach(function() {
+            scope.recallFilters.keywords = 'foo';
+            scope.recallFilters.age = '3';
+        });
+        describe('if location is determined by zipcode', function() {
+            beforeEach(function() {
+                scope.zipcode = zipcode;
+                spyOn(scope, 'getZipcodeData');
+                scope.resetFilters();
+            });
+
+            it('should clear keywords', function() {
+                expect(scope.recallFilters.keywords).toBe('');
+            });
+
+            it('should reset age', function() {
+                expect(scope.recallFilters.age).toBe(scope.recallAgeOptions[1].value);
+            });
+
+            it('should send filters through the zip code API', function() {
+                expect(scope.getZipcodeData).toHaveBeenCalled();
+            });
+
+        });
+        describe('if location is determined by geolocation', function() {
+            beforeEach(function() {
+                scope.coords = coords;
+                spyOn(scope, 'getLocationData');
+                scope.resetFilters();
+            });
+
+            it('should clear keywords', function() {
+                expect(scope.recallFilters.keywords).toBe('');
+            });
+
+            it('should reset age', function() {
+                expect(scope.recallFilters.age).toBe(scope.recallAgeOptions[1].value);
+            });
+            it('should send filters through the location API', function() {
+                expect(scope.getLocationData).toHaveBeenCalled();
+            });
+        });
+    });
 });
