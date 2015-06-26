@@ -5,12 +5,13 @@
 [![Test Coverage](https://codeclimate.com/github/devis/18FAgileBPA/badges/coverage.svg)](https://codeclimate.com/github/devis/18FAgileBPA/coverage)
 [![Code Climate](https://codeclimate.com/github/devis/18FAgileBPA/badges/gpa.svg)](https://codeclimate.com/github/devis/18FAgileBPA)
 
-## Links
+## Background
 
-* Prototype: [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) continuously deployed on [Heroku IaaS](https://www.heroku.com)
-* Our [Approach](#approach) to developing the prototype
-* [Project Vision](https://github.com/devis/18FAgileBPA/wiki/Project-Charter#vision)
-* [Project Roadmap](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map)
+* **Project Vision** - Consumers want to know about food recalls as soon as possible. And following a food recall, many consumers will want to know  where they might find locally produced alternatives to recalled foods.
+Our prototype is a Minimum Viable Product (MVP) that will meet those needs and ... [read more](https://github.com/devis/18FAgileBPA/wiki/Project-Charter#vision)
+* **Project Roadmap** - By the submission date, we will develop a Minimum Viable Product (MVP) with a basic feature set for an individual user: Produce data for two public API endpoints that ... [read more](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map)
+* **Prototype**: [https://devis18f.herokuapp.com](https://devis18f.herokuapp.com) continuously deployed on [Heroku IaaS](https://www.heroku.com)
+* **Our Approach** - Read about the [approach](#approach) we used to develop this MVP prototype
 
 ## Contributing
 
@@ -258,7 +259,7 @@ TODO:
 * for each story, lead a discussion between developers and users
   * add acceptance criteria to users stories
   * update stories or add new ones as required
-* prioritize stories according according to business value, as determined by users
+* prioritize stories according to business value, as determined by users
 
 ### Release Planning/Iteration Planning
 With user stories completed and prioritized, conduct initial release planning meeting:
