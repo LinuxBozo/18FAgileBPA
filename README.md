@@ -17,16 +17,6 @@ Our prototype is a Minimum Viable Product (MVP) that will meet those needs and .
 
 Please use the [fork and pull](https://help.github.com/articles/using-pull-requests#fork--pull) collaborative model, basing your pull requests on the `master` branch.
 
-This application makes use of multiple open source frontend and backend technologies, so coming up to speed on what they provide is optimal.
-
- - **Frontend**
-  - [AngularJS](https://angularjs.org/)
-  - [Browserify](http://browserify.org/)
- - **Backend**
-  - [node.js](https://nodejs.org/)
-  - [express](http://expressjs.com/)
-  - [KrakenJS](http://krakenjs.com/)
-
 ### Prerequisites for Development Environment
 
 Make sure you have [node.js](https://nodejs.org) installed (currently, version 0.12.4), and you can use the `npm` command:
@@ -82,122 +72,17 @@ You can view the full details of this coverage in a drill-down enabled report by
 
 ## Deploying
 
-The steps defined here describe a manual deployment process. This process can be automated with the use of continuous integration systems, like [Circle CI](https://circleci.com/) or [Jenkins](https://jenkins-ci.org/), and other configuration management tools, such as [Puppet](https://puppetlabs.com/) or [Chef](https://www.chef.io/).
+The steps defined here describe a mostly manual deployment process. This process can be automated with the use of continuous integration systems, like [Circle CI](https://circleci.com/) or [Jenkins](https://jenkins-ci.org/), and other configuration management tools, such as [Puppet](https://puppetlabs.com/) or [Chef](https://www.chef.io/).
 
 ### Using Heroku
 
-Make sure you have the [Heroku toolbelt](https://toolbelt.heroku.com/) installed, and have logged in to your Heroku account.
-
-Clone this repository:
-
-```shell
-$ git clone https://github.com/devis/18FAgileBPA.git
-$ cd 18FAgileBPA
-```
-
-Create a new app in your Heroku account:
-
-```shell
-$ heroku create
-```
-
-_**NOTE**: Heroku generates a random name for your app, unless you pass a parameter to specify your own app/host name._
-
-Next, you'll want to request your own [openFDA API key](https://open.fda.gov/api/reference/#authentication). We'll set this key in our heroku environment directly. This ensures that we aren't storing these credentials in the source code, or in a database that could be compromised.
-
-```shell
-$ heroku config:add OPENFDA_API_KEY=<your API key>
-```
-
-When you create an app, a git remote (called `heroku`) is also created and associated with your local git repository. You can now use this remote to deploy your code:
-
-```shell
-$ git push heroku master
-```
-
-Assuming there are no errors, the application is now deployed.
-
-If this is the first time you have deployed your application, you need to make sure at least one _web_ dyno instance is running, and set the environment (assuming a production instance):
-
-```shell
-$ heroku config:set NODE_ENV=prod
-$ heroku ps:scale web=1
-```
-
-Finally, you can visit your new app using it's name in your browser, or use the toolbelt to do it for you:
-
-```shell
-$ heroku open
-```
-
-#### Gathering metrics (_OPTIONAL_)
-
-If you would like to gather performance metrics, there is built in support for using [datadog](http://datadoghq.com). This does require some changes to your Heroku container.
-
-Set the buildpack to use with the Heroku container:
-
-```shell
-$ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-```
-
-This allows us to use [multiple build steps](.buildpacks) when using the container. These build packs install software required for both a node.js application, and the datadog StatsD collection agent.
-
-Next, [get your datadog API key](https://app.datadoghq.com/account/settings#api). Once you have your key, you can now set a config variable in your Heroku container:
-
-```shell
-$ heroku config:add DATADOG_API_KEY=<your API key>
-```
-
-Once you redeploy your application, and you have traffic coming in, you should now have some basic stats in your datadog account that you can now report. These stats start with the key of `node.express`.
+If you would like to use [Heroku](https://heroku.com) like we have, you can follow our [Heroku deployment guide](HEROKU_DEPLOYMENT.md).
 
 ### Your own server
 
-Make sure you have [node.js](https://nodejs.org) installed (currently, version 0.12.4), and you can use the `npm` command:
+If you use [Docker](https://www.docker.com/) for virtualization, we have developed a [Docker container](https://github.com/devis/18FAgileBPA-docker) for your convenience.
 
-```shell
-$ npm version
-```
-
-Install [Grunt](http://gruntjs.com), our chosen build task runner, globally:
-
-```shell
-$ npm install -g grunt-cli
-```
-
-Clone or pull from this repository
-
-```shell
-$ git clone https://github.com/devis/18FAgileBPA.git
-$ cd 18FAgileBPA
-```
-
-Then install dependencies from the project root directory:
-
-```shell
-$ npm install
-```
-
-After this, there are several ways that you can go to get the application running in your environment.
-
-This can be as simple as running the `server.js` directly with properly set environment variables:
-
-```shell
-$ OPENFDA_API_KEY=<your API key> NODE_ENV=prod PORT=80 node server.js
-```
-
-However, it is recommended that you use a services framework (like [upstart](http://upstart.ubuntu.com/)), or similar, that will allow you to script the startup and keep the process running should it run into any issues. There are also tools to keep the process running as a daemon, such as [pm2](https://github.com/Unitech/PM2) and [forever](https://www.npmjs.com/package/forever)
-
-We also recommend that you do not directly run the application on port 80, but rather, use a proxy setup from either [Apache](http://httpd.apache.org/) or preferably, [nginx](http://nginx.org/en/).
-
-#### Gathering metrics (_OPTIONAL_)
-
-If you would like to gather performance metrics, there is built in support for using [datadog](http://datadoghq.com).
-
-Make sure you have a proper [datadog agent](http://docs.datadoghq.com/guides/basic_agent_usage/) installed on your server/container platform, and it is listening on the default port.
-
-Next, [get your datadog API key](https://app.datadoghq.com/account/settings#api). Modify your service script (if you created one) to export the variable `DATADOG_API_KEY` and set it to your newly created key.
-
-Once you restart your service, and have traffic coming in, you should now have some basic stats in your datadog account that you can now report. These stats start with the key of `node.express`.
+You can also follow our [manual deployment guide](MANUAL_DEPLOYMENT.md), which provides general recommendations on installing and running the software on your own system.
 
 ## Approach
 
@@ -235,25 +120,42 @@ _See our [Approach Criteria Evidence](APPROACH_EVIDENCE.md)_
 With vision and high-level user stories completed, design software infrastructure best suited to solving this problem.
 
 #### Configuration Management
-TODO:
+- [Grunt](http://gruntjs.com)
+ - Provides scripted builds
+- [npm](https://www.npmjs.com)
+ - Handles automated dependency management
+- [Docker](http://docker.com)
+ - Provides portable containers of pre-configured software
 
 ##### Back-end / API stack
-TODO:
+- [node.js](https://nodejs.org/)
+ - JavaScript on the server
+- [Express](http://expressjs.com/)
+ - Minimilist web application framework
+- [KrakenJS](http://krakenjs.com/)
+ - Security and templating for Express applications
 
 ##### Front-end / UI tools
-TODO:
+- [AngularJS](https://angularjs.org/)
+ - Single Page Application (SPA) framework
+- [Browserify](http://browserify.org/)
+ - Isomorphic JavaScript framework
+- [Skeleton](http://getskeleton.com/)
+ - Lightweight style guide and CSS library
 
 #### Continuous Integration
-TODO:
+- [Circle CI](https://circleci.com/)
 
 #### Application Monitoring
-TODO:
+- [Data Dog](http://www.datadoghq.com/)
+ - See our [public metrics](https://p.datadoghq.com/sb/zraJRV-89b5c7fe6a)
 
 #### Code Quality monitoring
-TODO:
+- [Code Climate](https://codeclimate.com)
 
 #### Continuous Deployment
-TODO:
+- [Circle CI](https://circleci.com/)
+- [Heroku](https://heroku.com)
 
 ### Design Session: Complete/Prioritize User Stories
 * for each story, lead a discussion between developers and users
@@ -264,7 +166,7 @@ TODO:
 ### Release Planning/Iteration Planning
 With user stories completed and prioritized, conduct initial release planning meeting:
 * Add estimates to each story
-* Group the stories into multiple releases, based on users priorities and developer time estimates  
+* Group the stories into multiple releases, based on users priorities and developer time estimates
 * Break user stories into tasks
 * Assign stories to developers for the first iteration
 * Publish a project [Project Road Map](https://github.com/devis/18FAgileBPA/wiki/Project-Road-Map) with our initial release specified as our minimum viable product (MVP).
