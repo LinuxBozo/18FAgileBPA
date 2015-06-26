@@ -1,7 +1,5 @@
 <section id="recalls" class="recalls row section" aria-live="polite" ng-if="recallMetadata">
     <h2>Recent food recalls in {{location}}</h2>
-    <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
-
     <form ng-submit="applyFilters()">
         <h3 class="faux-legend">Narrow your results</h3>
         <div class="row">
@@ -34,4 +32,5 @@
         </li>
     </ul>
     <p ng-if="!recallResults">No recalled foods were found in your area. Eat whatever you want!</p>
+    <p><small>The FDA recall data was last updated {{recallMetadata.last_updated | date:'mediumDate'}}</small></p>
 </section>
