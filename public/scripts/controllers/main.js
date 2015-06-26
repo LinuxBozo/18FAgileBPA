@@ -4,20 +4,34 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
 
     var locationDialog;
 
+    // Initialize $scope
     $scope.location = 'Trying to find you...';
     $scope.recallMetadata = null;
     $scope.recallResults = [];
     $scope.markets = [];
     $scope.coords = {};
     $scope.zipcode = '';
+    $scope.recallAgeOptions = [
+        {value:'1',  label:'1 month'},
+        {value:'3',  label:'3 months'},
+        {value:'6',  label:'6 months'},
+        {value:'12', label:'12 months'},
+        {value:'',   label:'All'}
+    ];
+    $scope.recallFilters = {
+        keywords: '',
+        age: $scope.recallAgeOptions[1].value // default: 3 months
+    };
 
+    // Reset the recall data
     $scope.resetRecallData = function() {
         $scope.recallMetadata = null;
         $scope.recallResults = [];
     };
 
+    // Get recall and farmers market data for a given zip code
     $scope.getZipcodeData = function() {
-        $http.get('/api/recall/' + $scope.zipcode).then(function(response) {
+        $http.get('/api/recall/' + $scope.zipcode, {params: $scope.recallFilters}).then(function(response) {
             $scope.location = response.data.meta.state;
             $scope.recallMetadata = response.data.meta;
             $scope.recallResults = response.data.results;
@@ -35,10 +49,11 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
         });
     };
 
+    // Get recall and farmers market data by geolocation
     $scope.getLocationData = function() {
         geolocation.getLocation().then(function(data) {
             $scope.coords = data.coords;
-            $http.get('/api/recall/' + $scope.coords.latitude + '/' + $scope.coords.longitude).then(function(response) {
+            $http.get('/api/recall/' + $scope.coords.latitude + '/' + $scope.coords.longitude, {params: $scope.recallFilters}).then(function(response) {
                 $scope.location = response.data.meta.state;
                 $scope.recallMetadata = response.data.meta;
                 $scope.recallResults = response.data.results;
@@ -54,6 +69,14 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
                 $scope.markets = [];
             });
         });
+    };
+
+    $scope.applyFilters = function() {
+        if ($scope.zipcode) {
+            $scope.getZipcodeData();
+        } else {
+            $scope.getLocationData();
+        }
     };
 
     $scope.openLocationDialog = function() {
@@ -82,6 +105,6 @@ module.exports = /*@ngInject*/ function($scope, $http, geolocation, ngDialog) {
         });
     };
 
+    // Default to running getting data by geolocation
     $scope.getLocationData();
-
 };

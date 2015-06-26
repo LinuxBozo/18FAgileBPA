@@ -60,12 +60,19 @@ describe('Controller: MainCtrl', function() {
             expect(scope.markets).toEqual([]);
         });
 
+        it('should default the keyword search to an empty string', function() {
+            expect(scope.recallFilters.keywords).toBe('');
+        });
+
+        it('should default the date filter to "3 months"', function() {
+            expect(scope.recallFilters.age).toBe('3');
+        });
     });
 
     describe('when browser returns valid geolocation', function() {
         beforeEach(function() {
             recallDataVA.meta.state = 'Virginia';
-            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon + '?age=3&keywords=').respond(recallDataVA);
             httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(marketsVa);
             httpBackend.flush();
         });
@@ -96,7 +103,7 @@ describe('Controller: MainCtrl', function() {
     describe('when browser returns invalid geolocation', function() {
         beforeEach(function() {
             recallDataVA.meta.state = 'Virginia';
-            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(500, '');
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon + '?age=3&keywords=').respond(500, '');
             httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(500, '');
             httpBackend.flush();
         });
@@ -122,7 +129,7 @@ describe('Controller: MainCtrl', function() {
     describe('when valid zipcode is set', function() {
 
         beforeEach(function() {
-            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon + '?age=3&keywords=').respond(recallDataVA);
             httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(marketsVa);
             httpBackend.flush();
         });
@@ -135,7 +142,7 @@ describe('Controller: MainCtrl', function() {
             expect(scope.recallResults).toEqual([]);
             scope.zipcode = zipcode;
             scope.getZipcodeData();
-            httpBackend.whenGET('/api/recall/' + zipcode).respond(recallDataVA);
+            httpBackend.whenGET('/api/recall/' + zipcode + '?age=3&keywords=').respond(recallDataVA);
             httpBackend.whenGET('/api/market/' + zipcode).respond(marketsVa);
             httpBackend.flush();
         });
@@ -155,13 +162,12 @@ describe('Controller: MainCtrl', function() {
         it('should populate markets', function() {
             expect(scope.markets.length).toBe(19);
         });
-
     });
 
     describe('when invalid zipcode is set', function() {
         beforeEach(function() {
             recallDataVA.meta.state = 'Virginia';
-            httpBackend.whenGET('/api/recall/' + lat + '/' + lon).respond(recallDataVA);
+            httpBackend.whenGET('/api/recall/' + lat + '/' + lon + '?age=3&keywords=').respond(recallDataVA);
             httpBackend.whenGET('/api/market/' + lat + '/' + lon).respond(marketsVa);
             httpBackend.flush();
         });
@@ -169,7 +175,7 @@ describe('Controller: MainCtrl', function() {
         beforeEach(function() {
             scope.zipcode = 'foo';
             scope.getZipcodeData();
-            httpBackend.whenGET('/api/recall/' + scope.zipcode).respond(500, '');
+            httpBackend.whenGET('/api/recall/' + scope.zipcode + '?age=3&keywords=').respond(500, '');
             httpBackend.whenGET('/api/market/' + scope.zipcode).respond(500, '');
             httpBackend.flush();
         });
@@ -275,7 +281,30 @@ describe('Controller: MainCtrl', function() {
             expect(mockNgDialog.open).toHaveBeenCalled();
             expect(scope.location).toBe('Foobar');
         });
-
     });
 
+    describe('when user clicks apply filters', function() {
+        describe('if location is determined by zipcode', function() {
+            beforeEach(function() {
+                scope.zipcode = zipcode;
+                spyOn(scope, 'getZipcodeData');
+                scope.applyFilters();
+            });
+
+            it('should send filters through the zip code API', function() {
+                expect(scope.getZipcodeData).toHaveBeenCalled();
+            });
+        });
+        describe('if location is determined by geolocation', function() {
+            beforeEach(function() {
+                scope.coords = coords;
+                spyOn(scope, 'getLocationData');
+                scope.applyFilters();
+            });
+
+            it('should send filters through the location API', function() {
+                expect(scope.getLocationData).toHaveBeenCalled();
+            });
+        });
+    });
 });
