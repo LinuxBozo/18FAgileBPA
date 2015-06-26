@@ -2,19 +2,20 @@
     <h2>Recent food recalls in {{location}}</h2>
     <p><small>Results as of {{recallMetadata.last_updated}}</small></p>
 
-    <form>
+    <form ng-submit="applyFilters()">
         <h3 class="faux-legend">Narrow your results</h3>
         <div class="row">
             <div class="six columns">
                 <label for="recallSearch">Search recall descriptions</label>
-                <input type="search" id="recallSearch" class="u-full-width" value="" placeholder="e.g. ice cream, ACME Foods, etc&hellip;" name="recallSearch" ng-model="recallSearch">
+                <input type="search" id="recallSearch" class="u-full-width" value="" placeholder="e.g. ice cream, ACME Foods, etc&hellip;" name="recallSearch" ng-model="recallFilters.keywords">
             </div>
             <div class="six columns">
                 <label for="recallAge">Recalls within (months)</label>
-                <select id="recallAge" class="u-full-width" ng-model="recallAge" ng-options="age.text for age in recallAgeOptions track by age.value"></select>
+                <select id="recallAge" class="u-full-width" ng-model="recallFilters.age" ng-options="age.value as age.label for age in recallAgeOptions"></select>
             </div>
         </div>
-        <button type="submit">Go</button>
+        <button type="submit" class="button-primary">Apply</button>
+        <button type="reset" class="">Reset</button>
     </form>
 
     <ul class="list-unstyled" ng-if="recallResults">
