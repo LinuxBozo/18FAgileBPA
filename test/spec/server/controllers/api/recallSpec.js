@@ -7,6 +7,7 @@ var latLonVA = require('../../../../data/fcc-lat-lon-va.json'),
     latLonNull = require('../../../../data/fcc-lat-lon-null.json'),
     recallDataVA = require('../../../../data/food-recalls-va.json'),
     recallDataVAThreeMonths = require('../../../../data/food-recalls-va-3-months.json'),
+    recallDataVAHummus = require('../../../../data/food-recalls-va-hummus.json'),
     moment = require('moment');
 
 describe('/api/recall/:zipcode', function() {
@@ -171,6 +172,30 @@ describe('/api/recall/:lat/:lon', function() {
                 expect(text.meta).to.have.property('results');
                 expect(text.meta.results).to.have.property('total');
                 expect(text.meta.results.total).to.be(22);
+                done(err);
+            });
+
+    });
+
+    it('should return data when passed a valid lat and long and keywords', function(done) {
+        nock('https://data.fcc.gov')
+        .get('/api/block/find?format=json&latitude=37&longitude=-80')
+        .reply(200, latLonVA);
+
+        nock('https://api.fda.gov')
+        .get('/food/enforcement.json?limit=100&skip=0&search=status%3A%22Ongoing%22%20AND%20(distribution_pattern%3A%22nationwide%22%20distribution_pattern%3A%22VA%22)%20AND%20(reason_for_recall%3A%22hummus%22%20product_description%3A%22hummus%22)')
+        .reply(200, recallDataVAHummus);
+
+        request(mock)
+            .get('/api/recall/37/-80?keywords=hummus')
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function(err, res) {
+                var text = JSON.parse(res.text);
+                expect(text).to.have.property('meta');
+                expect(text.meta).to.have.property('results');
+                expect(text.meta.results).to.have.property('total');
+                expect(text.meta.results.total).to.be(24);
                 done(err);
             });
 
