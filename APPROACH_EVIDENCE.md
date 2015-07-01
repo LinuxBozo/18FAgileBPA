@@ -1,16 +1,19 @@
 # Approach Criteria Evidence
-|    | RFQ Section 24.A - Development Pool  | Evidence |
-|----|--------------------------------------|----------|
-| a  | Assigned one leader, gave that person authority and responsibility, and held that person accountable for the quality of the prototype submitted |          |
-| b  | Assembled a multidisciplinary and collaborative team that includes at a minimum of two of the labor categories limited to the Development Pool labor categories to develop the prototype as quoted in Attachment C |          |
-| c  | Used at least five modern and open-source technologies, regardless of architectural layer (frontend, backend, etc.) |          |
-| d  | Deployed the prototype on an Infrastructure as a Service (IaaS) or Platform as a Service (PaaS) provider, and indicated which provider they used |     [Link](README.md#18fagilebpa---rfq993471)     |
-| e  | Wrote unit tests for their code |          |
-| f  | Set up or used a continuous integration system to automate the running of tests and continuously deployed their code to their IaaS or PaaS provider |          |
-| g  | Set up or used configuration management |          |
-| h  | Set up or used continuous monitoring |          |
-| i  | Deploy their software in a container (i.e., utilized operating-system-level virtualization) |         |
-| j  | Used an iterative approach, where feedback informed subsequent work or versions of the prototype |          |
-| k  | Provided sufficient documentation to install and run their prototype on another machine |          |
-| l  | Prototype and underlying platforms used to create and run the prototype are openly licensed and free of charge |          |
-| -  | Make use of a API, by either consuming or providing one RESTfully. |          |
+
+## Pool Two - Development
+
+|    | RFQ Section 24.A | Evidence |
+|----|------------------|----------|
+| a  | Assigned one leader, gave that person authority and responsibility, and held that person accountable for the quality of the prototype submitted | |
+| b  | Assembled a multidisciplinary and collaborative team that includes at a minimum of two of the labor categories limited to the Development Pool labor categories to develop the prototype as quoted in Attachment C | Documented in the [Project Charter](https://github.com/devis/18FAgileBPA/wiki/Project-Charter#team-roles) |
+| c  | Used at least five modern and open-source technologies, regardless of architectural layer (frontend, backend, etc.) | We used a combination of both [backend](README.md@back-end--api-stack) and [frontend](README.md##front-end--ui-tools) technologies |
+| d  | Deployed the prototype on an Infrastructure as a Service (IaaS) or Platform as a Service (PaaS) provider, and indicated which provider they used | Outlined in the [Background section](README.md#background) of README, bullet **Prototype** |
+| e  | Wrote unit tests for their code | Tests where written for both the [server](https://github.com/devis/18FAgileBPA/tree/master/test/spec/server) and [client](https://github.com/devis/18FAgileBPA/tree/master/test/spec/client) pieces of the application. Our current combined coverage metrics are: [![Test Coverage](https://codeclimate.com/github/devis/18FAgileBPA/badges/coverage.svg)](https://codeclimate.com/github/devis/18FAgileBPA/coverage) |
+| f  | Set up or used a continuous integration system to automate the running of tests and continuously deployed their code to their IaaS or PaaS provider | We used CircleCI to build and deploy. Our deployment configuration is outlined in [circle.yml](https://github.com/devis/18FAgileBPA/blob/master/circle.yml) and the current build status is: [![Circle CI](https://circleci.com/gh/devis/18FAgileBPA.svg?style=svg)](https://circleci.com/gh/devis/18FAgileBPA) |
+| g  | Set up or used configuration management | [Several tools](README.md#configuration-management) were used for configuration management to ensure repeatable builds |
+| h  | Set up or used continuous monitoring | While most metrics are private, we did provide some [basic public metrics](README.md#application-monitoring) for responsiveness of the application, and we continuously monitor code quality with Code Climate. Our current quality score is [![Code Climate](https://codeclimate.com/github/devis/18FAgileBPA/badges/gpa.svg)](https://codeclimate.com/github/devis/18FAgileBPA) on a 4.0 scale |
+| i  | Deploy their software in a container (i.e., utilized operating-system-level virtualization) | Deployed to Heroku [web dyno](https://devcenter.heroku.com/articles/dynos#dynos), and have provided a [Dockerfile](https://github.com/devis/18FAgileBPA-docker) to build a deployable Docker container image |
+| j  | Used an iterative approach, where feedback informed subsequent work or versions of the prototype | We have used GitHub Issues to iteratively [track and inform work](https://github.com/devis/18FAgileBPA/issues/1).|
+| k  | Provided sufficient documentation to install and run their prototype on another machine | We have documented several [options for deployment](README.md#deploying) |
+| l  | Prototype and underlying platforms used to create and run the prototype are openly licensed and free of charge | See our [LICENSE.md](LICENSE.md) and the [licenses of our dependencies](DEPENDENCY_LICENSES.md) |
+| -  | Make use of a API, by either consuming or providing one RESTfully. | The application [consumes several APIs](https://github.com/devis/18FAgileBPA/wiki/Consumed-APIs) to round out it's functionality |
